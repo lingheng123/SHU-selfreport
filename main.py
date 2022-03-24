@@ -13,7 +13,7 @@ from fstate_generator import *
 from login import login
 
 NEED_BEFORE = True  # 如需补报则置为True，否则False
-START_DT = dt.datetime(2022, 3, 23)  # 需要补报的起始日期
+START_DT = dt.datetime(2022, 3, 22)  # 需要补报的起始日期
 RETRY = 5
 RETRY_TIMEOUT = 120
 
