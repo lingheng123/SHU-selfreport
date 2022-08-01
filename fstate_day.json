@@ -10,7 +10,7 @@
         "IFrameAttributes": {}
     },
     "p1_BaoSRQ": {
-        "Text": "2022-03-22"
+        "Text": "2022-07-06"
     },
     "p1_DangQSTZK": {
         "F_Items": [
@@ -68,12 +68,12 @@
         "F_Items": [
             [
                 "在上海（校内）",
-                "在上海（进过校内）",
+                "在上海（进学校）",
                 1
             ],
             [
                 "在上海（不在校内）",
-                "在上海（未进过校内）",
+                "在上海（不进学校）",
                 1
             ],
             [
@@ -83,6 +83,34 @@
             ]
         ],
         "SelectedValue": "在上海（校内）"
+    },
+    "p1_P_GuoNei_JinXXQ": {
+        "F_Items": [
+            [
+                "宝山",
+                "宝山",
+                1
+            ],
+            [
+                "延长",
+                "延长",
+                1
+            ],
+            [
+                "嘉定",
+                "嘉定",
+                1
+            ],
+            [
+                "新闸路",
+                "新闸路",
+                1
+            ]
+        ],
+        "SelectedValueArray": [
+            "宝山"
+        ],
+        "Hidden": false
     },
     "p1_P_GuoNei_ShiFZX": {
         "F_Items": [
@@ -123,23 +151,10 @@
                 1
             ]
         ],
-        "SelectedValue": null,
+        "SelectedValue": "宝山",
         "Hidden": false
     },
-    "p1_P_GuoNei_pImages_HFimgSuiSM": {
-        "Text": "cYskH72v3ZA="
-    },
-    "p1_P_GuoNei_pImages_imgSuiSM": {
-        "ImageUrl": "/ShowImage.ashx?squrl=0"
-    },
-    "p1_P_GuoNei_pImages_HFimgXingCM": {
-        "Text": "cYskH72v3ZA="
-    },
-    "p1_P_GuoNei_pImages_imgXingCM": {
-        "ImageUrl": "/ShowImage.ashx?squrl=0"
-    },
     "p1_P_GuoNei_pImages": {
-        "Hidden": true,
         "IFrameAttributes": {}
     },
     "p1_P_GuoNei": {
@@ -1759,6 +1774,8 @@
         ]
     },
     "p1_ddlSheng": {
+        "Hidden": false,
+        "Readonly": true,
         "F_Items": [
             [
                 "-1",
@@ -2008,12 +2025,12 @@
         ],
         "SelectedValueArray": [
             "上海"
-        ],
-        "Hidden": false,
-        "Readonly": true
+        ]
     },
     "p1_ddlShi": {
+        "Hidden": false,
         "Enabled": true,
+        "Readonly": true,
         "F_Items": [
             [
                 "-1",
@@ -2032,9 +2049,7 @@
         ],
         "SelectedValueArray": [
             "上海市"
-        ],
-        "Hidden": false,
-        "Readonly": true
+        ]
     },
     "p1_ddlXian": {
         "Enabled": true,
@@ -2164,6 +2179,105 @@
         ],
         "Hidden": false
     },
+    "p1_ddlJieDao": {
+        "Hidden": false,
+        "F_Items": [
+            [
+                "-1",
+                "选择街道",
+                1,
+                "",
+                ""
+            ],
+            [
+                "大场镇",
+                "大场镇",
+                1,
+                "大场镇",
+                ""
+            ],
+            [
+                "高境镇",
+                "高境镇",
+                1,
+                "高境镇",
+                ""
+            ],
+            [
+                "顾村镇",
+                "顾村镇",
+                1,
+                "顾村镇",
+                ""
+            ],
+            [
+                "罗店镇",
+                "罗店镇",
+                1,
+                "罗店镇",
+                ""
+            ],
+            [
+                "罗泾镇",
+                "罗泾镇",
+                1,
+                "罗泾镇",
+                ""
+            ],
+            [
+                "庙行镇",
+                "庙行镇",
+                1,
+                "庙行镇",
+                ""
+            ],
+            [
+                "淞南镇",
+                "淞南镇",
+                1,
+                "淞南镇",
+                ""
+            ],
+            [
+                "吴淞街道",
+                "吴淞街道",
+                1,
+                "吴淞街道",
+                ""
+            ],
+            [
+                "杨行镇",
+                "杨行镇",
+                1,
+                "杨行镇",
+                ""
+            ],
+            [
+                "友谊路街道",
+                "友谊路街道",
+                1,
+                "友谊路街道",
+                ""
+            ],
+            [
+                "月浦镇",
+                "月浦镇",
+                1,
+                "月浦镇",
+                ""
+            ],
+            [
+                "张庙街道",
+                "张庙街道",
+                1,
+                "张庙街道",
+                ""
+            ]
+        ],
+        "SelectedValueArray": [
+            "大场镇"
+        ]
+    },
     "p1_XiangXDZ": {
         "Text": "上海大学",
         "Hidden": false,
@@ -2184,109 +2298,7 @@
                 1
             ]
         ],
-        "SelectedValue": null
-    },
-    "p1_ContentPanel1": {
-        "IFrameAttributes": {}
-    },
-    "p1_FengXDQDL": {
-        "Label": "03月08日至03月22日是否在<span style='color:red;'>中高风险地区</span>逗留",
-        "SelectedValue": "否",
-        "F_Items": [
-            [
-                "是",
-                "是",
-                1
-            ],
-            [
-                "否",
-                "否",
-                1
-            ]
-        ]
-    },
-    "p1_TongZWDLH": {
-        "Required": true,
-        "Label": "上海同住人员是否有03月08日至03月22日来自<span style='color:red;'>中高风险地区</span>的人",
-        "SelectedValue": "否",
-        "F_Items": [
-            [
-                "是",
-                "是",
-                1
-            ],
-            [
-                "否",
-                "否",
-                1
-            ]
-        ]
-    },
-    "p1_CengFWH": {
-        "Label": "03月08日至03月22日是否在<span style='color:red;'>中高风险地区</span>逗留过",
-        "F_Items": [
-            [
-                "是",
-                "是",
-                1
-            ],
-            [
-                "否",
-                "否",
-                1
-            ]
-        ],
         "SelectedValue": "否"
-    },
-    "p1_CengFWH_RiQi": {
-        "Hidden": true
-    },
-    "p1_CengFWH_BeiZhu": {
-        "Hidden": true
-    },
-    "p1_JieChu": {
-        "Label": "03月08日至03月22日是否与来自<span style='color:red;'>中高风险地区</span>发热人员密切接触",
-        "SelectedValue": "否",
-        "F_Items": [
-            [
-                "是",
-                "是",
-                1
-            ],
-            [
-                "否",
-                "否",
-                1
-            ]
-        ]
-    },
-    "p1_JieChu_RiQi": {
-        "Hidden": true
-    },
-    "p1_JieChu_BeiZhu": {
-        "Hidden": true
-    },
-    "p1_TuJWH": {
-        "Label": "03月08日至03月22日是否乘坐公共交通途经<span style='color:red;'>中高风险地区</span>",
-        "SelectedValue": "否",
-        "F_Items": [
-            [
-                "是",
-                "是",
-                1
-            ],
-            [
-                "否",
-                "否",
-                1
-            ]
-        ]
-    },
-    "p1_TuJWH_RiQi": {
-        "Hidden": true
-    },
-    "p1_TuJWH_BeiZhu": {
-        "Hidden": true
     },
     "p1_QueZHZJC": {
         "F_Items": [
@@ -2346,65 +2358,8 @@
         "SelectedValue": null
     },
     "p1_GeLDZ": {
-        "Hidden": true
-    },
-    "p1_FanXRQ": {
-        "Hidden": true
-    },
-    "p1_WeiFHYY": {
-        "Hidden": true
-    },
-    "p1_ShangHJZD": {
-        "Hidden": true
-    },
-    "p1_DaoXQLYGJ": {
-        "Text": "没有"
-    },
-    "p1_DaoXQLYCS": {
-        "Text": "没有"
-    },
-    "p1_JiaRen": {
-        "Label": "03月08日至03月22日家人是否有发热等症状"
-    },
-    "p1_JiaRen_BeiZhu": {
-        "Hidden": true
-    },
-    "p1_SuiSM": {
-        "Required": true,
-        "SelectedValue": "绿色",
-        "F_Items": [
-            [
-                "红色",
-                "红色",
-                1
-            ],
-            [
-                "黄色",
-                "黄色",
-                1
-            ],
-            [
-                "绿色",
-                "绿色",
-                1
-            ]
-        ]
-    },
-    "p1_LvMa14Days": {
-        "Required": true,
-        "SelectedValue": "是",
-        "F_Items": [
-            [
-                "是",
-                "是",
-                1
-            ],
-            [
-                "否",
-                "否",
-                1
-            ]
-        ]
+        "Hidden": true,
+        "Required": false
     },
     "p1_ctl01_btnReturn": {
         "OnClientClick": "document.location.href='/Default.aspx';return;"

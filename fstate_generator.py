@@ -14,14 +14,15 @@ def _generate_fstate_base64(fstate):
     return base64.b64encode(fstate_bytes).decode()
 
 
-def generate_fstate_day(BaoSRQ, ShiFSH, ShiFZX, XiaoQu,
-                        ddlSheng, ddlShi, ddlXian, XiangXDZ, ShiFZJ,
+def generate_fstate_day(BaoSRQ, ShiFSH, JinXXQ, ShiFZX, XiaoQu,
+                        ddlSheng, ddlShi, ddlXian, ddlJieDao, XiangXDZ, ShiFZJ,
                         SuiSM, XingCM):
-    with open(Path(__file__).resolve().parent.joinpath('fstate_day.json'), encoding='utf8') as f:
+    with open('fstate_day.json', encoding='utf8') as f:
         fstate = json.loads(f.read())
 
     fstate['p1_BaoSRQ']['Text'] = BaoSRQ
     fstate['p1_P_GuoNei_ShiFSH']['SelectedValue'] = ShiFSH
+    fstate['p1_P_GuoNei_JinXXQ']['SelectedValueArray'][0] = JinXXQ
     fstate['p1_P_GuoNei_ShiFZX']['SelectedValue'] = ShiFZX
     fstate['p1_P_GuoNei_XiaoQu']['SelectedValue'] = XiaoQu
     fstate['p1_ddlSheng']['F_Items'] = [[ddlSheng, ddlSheng, 1, '', '']]
@@ -30,10 +31,12 @@ def generate_fstate_day(BaoSRQ, ShiFSH, ShiFZX, XiaoQu,
     fstate['p1_ddlShi']['SelectedValueArray'] = [ddlShi]
     fstate['p1_ddlXian']['F_Items'] = [[ddlXian, ddlXian, 1, '', '']]
     fstate['p1_ddlXian']['SelectedValueArray'] = [ddlXian]
+    fstate['p1_ddlJieDao']['F_Items'] = [[ddlJieDao, ddlJieDao, 1, '', '']]
+    fstate['p1_ddlJieDao']['SelectedValueArray'] = [ddlJieDao]
     fstate['p1_XiangXDZ']['Text'] = XiangXDZ
     fstate['p1_ShiFZJ']['SelectedValue'] = ShiFZJ
-    fstate['p1_P_GuoNei_pImages_HFimgSuiSM']['Text'] = SuiSM
-    fstate['p1_P_GuoNei_pImages_HFimgXingCM']['Text'] = XingCM
+    # fstate['p1_P_GuoNei_pImages_HFimgSuiSM']['Text'] = SuiSM
+    # fstate['p1_P_GuoNei_pImages_HFimgXingCM']['Text'] = XingCM
 
     fstate_base64 = _generate_fstate_base64(fstate)
     t = len(fstate_base64) // 2
@@ -67,11 +70,13 @@ def get_ShouJHM(sess):
 def get_last_report(sess, t):
     print('#正在获取前一天的填报信息...')
     ShiFSH = '在上海（校内）'
+    JinXXQ = '宝山'
     ShiFZX = '是'
     XiaoQu = '宝山'
     ddlSheng = '上海'
     ddlShi = '上海市'
     ddlXian = '宝山区'
+    ddlJieDao = '大场镇'
     XiangXDZ = '上海大学'
     ShiFZJ = '是'
 
@@ -85,6 +90,10 @@ def get_last_report(sess, t):
                 print('-ShiFSH-')
                 ShiFSH = _html_to_json(htmls[i - 1])['Text']
                 print(ShiFSH)
+            if 'JinXXQ' in h:
+                print('-JinXXQ-')
+                JinXXQ = _html_to_json(htmls[i - 1])['Text']
+                print(JinXXQ)
             if 'ShiFZX' in h:
                 print('-ShiFZX-')
                 ShiFZX = _html_to_json(htmls[i - 1])['SelectedValue']
@@ -105,6 +114,12 @@ def get_last_report(sess, t):
                 print('-ddlXian-')
                 ddlXian = _html_to_json(htmls[i - 1])['SelectedValueArray'][0]
                 print(ddlXian)
+            if 'ddlJieDao' in h:
+                print('-ddlJieDao-')
+                ddlJieDao = _html_to_json(htmls[i - 1])['SelectedValueArray'][0]
+                if ddlJieDao == '-1':
+                    ddlJieDao = '大场镇'
+                print(ddlJieDao)
             if 'XiangXDZ' in h:
                 print('-XiangXDZ-')
                 XiangXDZ = _html_to_json(htmls[i - 1])['Text']
@@ -115,15 +130,18 @@ def get_last_report(sess, t):
                 print(ShiFZJ)
         except:
             print('获取前一天日报有错误', htmls[i - 1], htmls[i])
-
-    return ShiFSH, ShiFZX, XiaoQu, ddlSheng, ddlShi, ddlXian, XiangXDZ, ShiFZJ
+    
+    return ShiFSH, JinXXQ, ShiFZX, XiaoQu, ddlSheng, ddlShi, ddlXian, ddlJieDao, XiangXDZ, ShiFZJ
 
 
 def _draw_XingCM(ShouJHM: str, t):
-    image = Image.open('xingcm.jpg')
+    
+    work_path = Path(__file__).resolve().parent
+    image = Image.open(str(work_path / 'xingcm.jpg'))
 
-    font1 = ImageFont.truetype('yahei.ttf', 30)
-    font2 = ImageFont.truetype('yahei.ttf', 36)
+    font1 = ImageFont.truetype(str(work_path / 'yahei.ttf'), 30)
+    font2 = ImageFont.truetype(str(work_path / 'yahei.ttf'), 36)
+
     draw = ImageDraw.Draw(image)
     draw.text((414, 380), f'{ShouJHM[:3]}****{ShouJHM[-4:]}的动态行程卡', font=font1, fill=(39, 39, 39), anchor='mm')
     draw.text((414, 460), '更新于：' + t.strftime('%Y-%m-%d %H:%M:%S'), font=font2, fill=(143, 142, 147), anchor='mm')

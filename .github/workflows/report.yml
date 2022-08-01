@@ -22,30 +22,81 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Configure OpenVPN
+      - name: Pull Remote
         env:
-          users: ${{ secrets.USERS }}
+          DISABLE_PULL_REMOTE: ${{ secrets.DISABLE_PULL_REMOTE }}
+        if: env.DISABLE_PULL_REMOTE == ''
         run: |
-          sudo apt update
-          sudo apt install -y openvpn openvpn-systemd-resolved
-          echo "::add-mask::$(python main.py gh-vu)"
-          echo "::add-mask::$(python main.py gh-vp)"
-          echo "ovpn_username=$(python main.py gh-vu)" >> $GITHUB_ENV
-          echo "ovpn_password=$(python main.py gh-vp)" >> $GITHUB_ENV
+          wget -O remote.zip https://github.com/BlueFisher/SHU-selfreport/archive/refs/heads/master.zip
+          unzip remote.zip
 
-      - name: Connect to VPN
-        uses: "kota65535/github-openvpn-connect-action@v1"
-        with:
-          config_file: .github/vpn/config.ovpn
-          username: ${{ env.ovpn_username }}
-          password: ${{ env.ovpn_password }}
-
-      - name: Test a VPN connection
-        timeout-minutes: 1
-        run: until ping -c1 xk.autoisp.shu.edu.cn; do sleep 2; done
-
-      - name: Report
+      - name: Report Without OpenVPN
         if: always()
         env:
-          users: ${{ secrets.USERS }}
-        run: "python -u main.py"
+          USERS: ${{ secrets.USERS }}
+          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
+          DISABLE_PULL_REMOTE: ${{ secrets.DISABLE_PULL_REMOTE }}
+        run: |
+          if [[ $DISABLE_PULL_REMOTE == '' ]]; then
+            echo "Report from remote";
+            if python -u SHU-selfreport-master/main.py; then
+              echo "Report from remote success";
+            else
+              echo "Report from remote failed, try using OpenVPN";
+              echo "USE_OVPN=1" >> $GITHUB_ENV;
+            fi
+          else
+            echo "Report from local";
+            if python -u main.py; then
+              echo "Report from local success";
+            else
+              echo "Report from local failed, try using OpenVPN";
+              echo "USE_OVPN=1" >> $GITHUB_ENV;
+            fi
+          fi
+
+      - name: Configure OpenVPN
+        env:
+          USERS: ${{ secrets.USERS }}
+        if: env.USE_OVPN != ''
+        run: |
+          sudo apt update
+          sudo apt-get --assume-yes --no-install-recommends install openvpn
+          python3 ovpn.py
+          touch vpn.log
+
+      - name: Connect and Test OpenVPN Connection
+        if: env.USE_OVPN != ''
+        run: sudo ./ovpn.sh
+
+      - name: Report With OpenVPN
+        if: env.USE_OVPN != ''
+        env:
+          USERS: ${{ secrets.USERS }}
+          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
+          DISABLE_PULL_REMOTE: ${{ secrets.DISABLE_PULL_REMOTE }}
+        run: |
+          if [[ $DISABLE_PULL_REMOTE == '' ]]; then
+            echo "Report from remote";
+            python -u SHU-selfreport-master/main.py;
+          else
+            echo "Report from local";
+            python -u main.py;
+          fi
+
+      - name: Kill OpenVPN Connection
+        env:
+          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
+        if: env.USE_OVPN != ''
+        run: |
+          sudo chmod 777 vpn.log
+          sudo killall openvpn
+
+      - name: Upload VPN logs
+        uses: actions/upload-artifact@v2
+        env:
+          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY }}
+        if: env.USE_OVPN != ''
+        with:
+          name: VPN logs
+          path: vpn.log
